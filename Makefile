@@ -25,6 +25,3 @@ main: $(OBJ)
 
 clean:
 	rm -f $(ODIR)/*.o *~ core $(SRCDIR)/*~ 
-
-clean:
-	rm -f $(ODIR)/*.o *~ core $(SRCDIR)/*~
