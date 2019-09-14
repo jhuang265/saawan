@@ -2,8 +2,7 @@
 #include "view.h"
 #include "util.h"
 #include "color.h"
-#include "pdf.h"
-#include <string.h>
+#include "print.h"
 
 static void set_page_color(HPDF_Page page, rgb c) {
     HPDF_Page_SetRGBFill(page, c.red, c.green, c.blue);
@@ -18,6 +17,10 @@ static void draw_rectangle(HPDF_Page page, rgb c,
 }
 
 void draw(view* v, HPDF_Page page) {
+    if (v->layout.height == 0 || v->layout.width == 0) {
+        return;
+    }
+
     int pageHeight = HPDF_Page_GetHeight(page);
     if (get_settings_flag(SETTINGS_SHOW_BOUNDING_BOX)) {
         draw_rectangle(page, COLOR_MARGIN,
@@ -104,20 +107,14 @@ void draw(view* v, HPDF_Page page) {
         HPDF_Page_EndText(page);
         if (strcmp(v->properties.text_view.link, "") != 0) {
             HPDF_Rect rect = { left, bottom, right, top };
-            printf("Creating a link: %s\n", v->properties.text_view.link);
+            print_status("Creating a link: %s\n", v->properties.text_view.link);
             HPDF_Page_CreateURILinkAnnot(page, rect,
                 v->properties.text_view.link);
         }
     }
     else if (v->type == TYPE_IMAGE_VIEW) {
-		HPDF_Page_DrawImage(page, 
-			v->properties.image_view.image,
 
-            v->layout.x + v->layout.padding_left,
-            pageHeight - v->layout.y - (v->layout.height - v->layout.padding_bottom),
-            v->layout.width - v->layout.padding_right - v->layout.padding_left,
-            v->layout.height - v->layout.padding_bottom - v->layout.padding_top);
-	}
+    }
     else if (v->type == TYPE_LINEAR_LAYOUT) {
         viewlist* child = v->properties.linear_layout.children;
         while (child) {
