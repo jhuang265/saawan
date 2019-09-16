@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include "libxml/parser.h"
 #include "libxml/tree.h"
 #include "view.h"
@@ -53,7 +54,7 @@ void process_doc(xmlDoc* doc);
 void process_stdin() {
 	print_status("Reading from stdin...");
 	xmlDoc* doc = NULL;
-	doc = xmlReadFd(stdin->_fileno, "", "UTF-8", 0);
+	doc = xmlReadFd(STDIN_FILENO, "", "UTF-8", 0);
 	if (doc == NULL) {
 		fprintf(stderr, "Could not read from stdin!\n");
 		exit(1);
