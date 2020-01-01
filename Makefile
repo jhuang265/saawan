@@ -5,7 +5,7 @@ ODIR = build
 BINDIR = bin
 SRCDIR = src
 INCDIR = headers
-CFLAGS=-I $(INCDIR) -I icu/source/common -L./lib -lhpdf -lxml2 -lz -lm -g -lpng
+CFLAGS=-I $(INCDIR) -L./lib -lhpdf -lxml2 -lz -lm -g -lpng
 CFLAGSNOLINK = -I $(INCDIR) -lxml2 -lhpdf -g -lpng
 
 _DEPS = view.h error.h verify.h util.h layout.h pdf.h draw.h color.h fonts.h templates.h print.h
@@ -17,7 +17,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 all: setup main
 
 $(ODIR)/%.o: $(SRCDIR)/%.c $(DEPS)
-	$(CC) -I icu/source/common -c -o $@ $< $(CFLAGSNOLINK) $(CXXFLAGS)
+	$(CC) -c -o $@ $< $(CFLAGSNOLINK) $(CXXFLAGS)
 
 setup:
 	mkdir -p $(BINDIR)
