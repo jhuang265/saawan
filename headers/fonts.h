@@ -1,7 +1,7 @@
 #ifndef FONTS_H
 #define FONTS_H
 
-#include "hpdf.h"
+#include "libpdf/hpdf.h"
 
 typedef enum {
 	STYLE_NONE,
